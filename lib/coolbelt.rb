@@ -2,7 +2,9 @@
 
 require_relative "coolbelt/version"
 
-Zeitwerk::Loader.for_gem
+require 'zeitwerk'
+loader = Zeitwerk::Loader.for_gem
+loader.setup
 
 module Coolbelt
   class Error < StandardError; end
