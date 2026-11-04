@@ -1,4 +1,4 @@
-module Coolbelt::HasTimeRange
+module Coolbelt::Model::HasTimeRange
   extend ActiveSupport::Concern
 
   module TimeParser

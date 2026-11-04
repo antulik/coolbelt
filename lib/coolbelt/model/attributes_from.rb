@@ -1,4 +1,4 @@
-module Coolbelt::AttributesFrom
+module Coolbelt::Model::AttributesFrom
   extend ActiveSupport::Concern
 
   class_methods do
