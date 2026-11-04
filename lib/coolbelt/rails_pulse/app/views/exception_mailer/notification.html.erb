@@ -1,0 +1,12 @@
+<dl>
+  <dt>Exception class</dt>
+  <dd><%= @exception_group.exception_class %></dd>
+
+  <dt>Location</dt>
+  <dd><%= @exception_group.location %></dd>
+
+  <dt>Message</dt>
+  <dd><%= @exception_group.message %></dd>
+</dl>
+
+<%= link_to "Open", rails_pulse.exception_url(@exception_group) %>
