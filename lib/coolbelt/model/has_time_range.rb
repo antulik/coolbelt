@@ -20,14 +20,17 @@ module Coolbelt::Model::HasTimeRange
   end
 
   class_methods do
-    def has_time_range
+    def has_time_range(greater: false)
       class_eval do
         attribute(:start_seconds, :integer, default: 0)
         attribute(:end_seconds, :integer, default: 86_399)
 
         validates(:start_seconds, :end_seconds, presence: true,
           numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than: 86_400 },)
-        validates(:end_seconds, comparison: { greater_than: :start_seconds })
+
+        if greater
+          validates(:end_seconds, comparison: { greater_than: :start_seconds })
+        end
 
         after_validation do
           errors.add(:start_time_text, :invalid) if errors[:start_seconds].present?
@@ -56,7 +59,9 @@ module Coolbelt::Model::HasTimeRange
 
         def end_time(datetime)
           time = end_time_utc
-          datetime.change({ hour: time.hour, min: time.min, sec: time.sec })
+          result = datetime.change({ hour: time.hour, min: time.min, sec: time.sec })
+          result += 1.day if start_seconds >= end_seconds
+          result
         end
 
         def start_time_text=(value)
