@@ -8,7 +8,12 @@ loader.ignore("#{__dir__}/coolbelt/rails_pulse")
 loader.setup
 
 module Coolbelt
+  module RailsPulse
+    mattr_accessor :exception_mail_to
+  end
   class Error < StandardError; end
 
+  class Engine < ::Rails::Engine
+  end
 end
 
