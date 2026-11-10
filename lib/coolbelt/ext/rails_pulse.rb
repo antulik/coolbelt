@@ -14,6 +14,8 @@ module EmailExceptionPatch
   end
 end
 
-Rails.application.config.after_initialize do
-  ::RailsPulse::ExceptionCaptureService.prepend(::EmailExceptionPatch)
+Coolbelt::Engine.class_eval do
+  config.after_initialize do
+    ::RailsPulse::ExceptionCaptureService.prepend(::EmailExceptionPatch)
+  end
 end
