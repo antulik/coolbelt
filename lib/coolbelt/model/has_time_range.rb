@@ -25,7 +25,7 @@ module Coolbelt::Model::HasTimeRange
         attribute(:start_seconds, :integer, default: 0)
         attribute(:end_seconds, :integer, default: 86_399)
 
-        validates(:start_seconds, :end_seconds, presence: true,
+        validates(:start_seconds, :end_seconds,
           numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than: 86_400 },)
 
         if greater
@@ -33,16 +33,20 @@ module Coolbelt::Model::HasTimeRange
         end
 
         after_validation do
-          errors.add(:start_time_text, :invalid) if errors[:start_seconds].present?
-          errors.add(:end_time_text, :invalid) if errors[:end_seconds].present?
+          if errors[:start_seconds].present? && @start_time_text.present?
+            errors.add(:start_time_text, "HH:MM expected, less then 24h")
+          end
+          if errors[:end_seconds].present? && @end_time_text.present?
+            errors.add(:end_time_text, "HH:MM expected, less then 24h")
+          end
         end
 
         def start_time_text
-          TimeParser.format_time_text(start_seconds)
+          TimeParser.format_time_text(start_seconds) || @start_time_text
         end
 
         def end_time_text
-          TimeParser.format_time_text(end_seconds)
+          TimeParser.format_time_text(end_seconds) || @end_time_text
         end
 
         def start_time_utc = Time.at(start_seconds).utc
@@ -65,10 +69,12 @@ module Coolbelt::Model::HasTimeRange
         end
 
         def start_time_text=(value)
+          @start_time_text = value
           self.start_seconds = TimeParser.parse_time_text(value)
         end
 
         def end_time_text=(value)
+          @end_time_text = value
           self.end_seconds = TimeParser.parse_time_text(value)
         end
       end
