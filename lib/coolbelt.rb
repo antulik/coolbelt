@@ -6,6 +6,7 @@ require 'zeitwerk'
 loader = Zeitwerk::Loader.for_gem
 loader.ignore("#{__dir__}/coolbelt/rails_pulse")
 loader.ignore("#{__dir__}/coolbelt/ext")
+loader.ignore("#{__dir__}/coolbelt/lean_engine_app")
 loader.setup
 
 module Coolbelt
