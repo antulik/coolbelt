@@ -40,7 +40,7 @@ module Coolbelt::Controller::UrlAuth
   end
 
   def authenticate!
-    redirect_to(:login) unless current_user
+    redirect_to(main_app.login_path) unless current_user
   end
 
   def logged_in?
