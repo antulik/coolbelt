@@ -16,6 +16,7 @@ module Coolbelt::Controller::UrlAuth
     helper_method :current_user
     helper_method :impersonating?
     helper_method :logged_in?
+    helper_method :pwa?
 
     before_action do
       if impersonating? && current_user.nil?
